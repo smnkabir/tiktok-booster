@@ -115,9 +115,10 @@ public class MainActivity extends AppCompatActivity {
                         String word3 = ".jpeg\" alt=";
                         String word4 = "title=\"Followers\" class=\"jsx-1061034316\">";
                         String word5 = "</strong><span class=\"jsx-1061034316\">Followers";
+                        String word6 = "title=\"Likes\" class=\"jsx-1061034316\">";
+                        String word7 = "</strong><span class=\"jsx-1061034316\">Likes";
 
-                       /* int i = response.toString().indexOf(word);
-                        int i1 = response.toString().indexOf(word1);*/
+
 
                         String [] s = response.toString().split(word);
 
@@ -128,14 +129,18 @@ public class MainActivity extends AppCompatActivity {
                         int i2 = s[1].indexOf(word3);
                         int i3 = s[1].indexOf(word4);
                         int i4 = s[1].indexOf(word5);
+                        int i5 = s[1].indexOf(word6);
+                        int i6 = s[1].indexOf(word7);
 
                         String name = s[1].substring(0,i);
                         String imgUrl = s[1].substring(i1+word2.length(),i2+5);
                         String followers = s[1].substring(i3+word4.length(),i4);
+                        String likes = s[1].substring(i5+word6.length(),i6);
 
                         Log.wtf("name", name );
                         Log.wtf("imgurl", imgUrl );
                         Log.wtf("followers", followers);
+                        Log.wtf("likes", likes);
                     }
                 }, new Response.ErrorListener() {
             @Override
