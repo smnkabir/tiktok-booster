@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Insta Booster</string>
+    <string name="caption"><![CDATA[Boost your TikTok likes & followers  just in few easy step for FREE!]]></string>
+    <string name="textInputHint">\@username</string>
+</resources>
