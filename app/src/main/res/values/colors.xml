@@ -5,5 +5,8 @@
     <color name="colorAccent">#D81B60</color>
     <color name="disable_btn">#00682a</color>
     <color name="enable_btn">#00c247</color>
+    <color name="white">#ffffff</color>
+    <color name="follower">#ff0047</color>
+    <color name="like">#00fff1</color>
 
 </resources>
