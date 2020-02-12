@@ -2,14 +2,18 @@ package com.vectorit.instabooster;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.Editable;
 import android.text.Selection;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -22,6 +26,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.vectorit.instabooster.WebInterface.WebInterface;
 
 import org.json.JSONObject;
 
@@ -35,8 +40,9 @@ public class MainActivity extends AppCompatActivity {
 
     Button btn_verify;
     EditText et_username;
+    WebView myWebView;
     TextView tv_status;
-    final String url = "https://www.tiktok.com/";
+    String url = "https://www.tiktok.com/";
 
     //hold the btn state verify or next
     int state = 1;
@@ -45,6 +51,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        myWebView = new WebView(this);
 
         idfinder();
         et_username.addTextChangedListener(new TextWatcher() {
@@ -59,19 +67,18 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if(s.toString().isEmpty()){
+                if (s.toString().isEmpty()) {
                     btn_verify.setEnabled(false);
-                    GradientDrawable myGrad = (GradientDrawable)btn_verify.getBackground();
+                    GradientDrawable myGrad = (GradientDrawable) btn_verify.getBackground();
                     myGrad.setColor(getResources().getColor(R.color.disable_btn));
                     tv_status.setText("*Please a valid TikTok username");
-                }
-                else {
-                    if(!s.toString().startsWith("@")) {
+                } else {
+                    if (!s.toString().startsWith("@")) {
                         et_username.setText("@" + s.toString());
-                        Selection.setSelection(et_username.getText(),et_username.getText().length());
+                        Selection.setSelection(et_username.getText(), et_username.getText().length());
                     }
                     btn_verify.setEnabled(true);
-                    GradientDrawable myGrad = (GradientDrawable)btn_verify.getBackground();
+                    GradientDrawable myGrad = (GradientDrawable) btn_verify.getBackground();
                     myGrad.setColor(getResources().getColor(R.color.enable_btn));
                     tv_status.setText("*Enter a valid TikTok username");
                 }
@@ -81,7 +88,10 @@ public class MainActivity extends AppCompatActivity {
         btn_verify.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getUser(et_username.getText().toString().trim());
+                if (state == 1)
+                    getUser(et_username.getText().toString().trim());
+                else if (state == 2)
+                    nextAction();
             }
         });
 
@@ -89,8 +99,23 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setError() {
-        GradientDrawable myGrad = (GradientDrawable)et_username.getBackground();
+        GradientDrawable myGrad = (GradientDrawable) et_username.getBackground();
         myGrad.setStroke(2, Color.RED);
+        tv_status.setTextColor(Color.RED);
+
+    }
+
+    private void veritySuccessful() {
+        et_username.setFocusable(false);
+        et_username.setFocusableInTouchMode(false); // user touches widget on phone with touch screen
+        et_username.setClickable(false);
+        GradientDrawable myGrad = (GradientDrawable) et_username.getBackground();
+        myGrad.setStroke(2, Color.GREEN);
+        tv_status.setTextColor(Color.GREEN);
+        tv_status.setText("*Username verified successfully");
+        btn_verify.setText("Next");
+        state = 2;
+
     }
 
     private void idfinder() {
@@ -99,16 +124,70 @@ public class MainActivity extends AppCompatActivity {
         tv_status = findViewById(R.id.tv_status);
     }
 
-    private void getUser(String username){
+    private void nextAction() {
+
+        btn_verify.setVisibility(View.GONE);
+
+        final ProgressDialog progressDialog = new ProgressDialog(this);
+        progressDialog.setTitle("Please Wait");
+        progressDialog.setMessage("Work on process...");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+
+        myWebView.getSettings().setJavaScriptEnabled(true);
+
+        myWebView.loadUrl(url);
+
+        myWebView.addJavascriptInterface(new WebInterface(this), "androidInterface");
+
+        myWebView.setWebViewClient(new WebViewClient() {
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                super.onPageFinished(view, url);
+                Log.wtf("onpagefinished", url);
+
+                myWebView.loadUrl("javascript:(function getProfileInfo(){" +
+                        "    var nameElement = document.querySelector('.share-title');" +
+                        "    var bioElement = document.querySelector('.share-desc');" +
+                        "    var followingElement = document.querySelector(\".count-infos .number[title='Following']\");" +
+                        "    var followerElement = document.querySelector(\".count-infos .number[title='Followers']\");" +
+                        "    var LikesElement = document.querySelector(\".count-infos .number[title='Likes']\");" +
+                        "    " +
+                        "    var profileInfo = {" +
+                        "        name : nameElement.innerText," +
+                        "        bio : bioElement.innerText," +
+                        "        following : followingElement.innerText," +
+                        "        follower : followerElement.innerText," +
+                        "        Likes : LikesElement.innerText," +
+                        "    }" +
+                        "    androidInterface.getProfileInfo(profileInfo, true);" +
+                        "})()");
+            }
+        });
+
+        progressDialog.dismiss();
+
+    }
+
+    private void getUser(final String username) {
 
         RequestQueue requestQueue = Volley.newRequestQueue(MainActivity.this);
 
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, url+username
+        final ProgressDialog progressDialog = new ProgressDialog(this);
+        progressDialog.setTitle("Please Wait");
+        progressDialog.setMessage("Verifying your TikTok Username");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url + username
                 , new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
+            @Override
+            public void onResponse(final String response) {
 //                        Log.wtf("response code",response.toString());
 
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
                         String word = "header-center\">";
                         String word1 = "</h1><div";
                         String word2 = "profile-avatar\"><img src=\"";
@@ -119,8 +198,7 @@ public class MainActivity extends AppCompatActivity {
                         String word7 = "</strong><span class=\"jsx-1061034316\">Likes";
 
 
-
-                        String [] s = response.toString().split(word);
+                        String[] s = response.toString().split(word);
 
                         Log.d("s[1]", s[1]);
 
@@ -132,17 +210,40 @@ public class MainActivity extends AppCompatActivity {
                         int i5 = s[1].indexOf(word6);
                         int i6 = s[1].indexOf(word7);
 
-                        String name = s[1].substring(0,i);
-                        String imgUrl = s[1].substring(i1+word2.length(),i2+5);
-                        String followers = s[1].substring(i3+word4.length(),i4);
-                        String likes = s[1].substring(i5+word6.length(),i6);
+                        /*Log.wtf("i",i+"");
+                        Log.wtf("i",i1+"");
+                        Log.wtf("i",i2+"");
+                        Log.wtf("i",i3+"");
+                        Log.wtf("i",i4+"");
+                        Log.wtf("i",i5+"");
+                        Log.wtf("i",i6+"");*/
 
-                        Log.wtf("name", name );
-                        Log.wtf("imgurl", imgUrl );
-                        Log.wtf("followers", followers);
-                        Log.wtf("likes", likes);
+                        if (i < 0 || i1 < 0 || i2 < 0 || i3 < 0 || i4 < 0 || i5 < 0 || i6 < 0) {
+                            setError();
+
+                        } else {
+                            url = url + username;
+                            veritySuccessful();
+
+                            /*String name = s[1].substring(0, i);
+                            String imgUrl = s[1].substring(i1 + word2.length(), i2 + 5);
+                            String followers = s[1].substring(i3 + word4.length(), i4);
+                            String likes = s[1].substring(i5 + word6.length(), i6);
+
+                            Log.wtf("name", name);
+                            Log.wtf("imgurl", imgUrl);
+                            Log.wtf("followers", followers);
+                            Log.wtf("likes", likes);*/
+
+                        }
+
+                        progressDialog.dismiss();
                     }
-                }, new Response.ErrorListener() {
+                }, 5 * 1000);
+
+
+            }
+        }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.d("error", "Error: " + error.getMessage());
@@ -160,9 +261,9 @@ public class MainActivity extends AppCompatActivity {
         requestQueue.add(stringRequest);
     }
 
-    private void checkStatusCode(int statusCode){
-        Log.wtf("status code","" + statusCode);
-        switch (statusCode){
+    private void checkStatusCode(int statusCode) {
+        Log.wtf("status code", "" + statusCode);
+        switch (statusCode) {
             case HttpURLConnection.HTTP_OK:
                 valid();
                 break;
@@ -175,10 +276,11 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void valid(){
+    private void valid() {
 
     }
-    private void notFound(){
+
+    private void notFound() {
 
     }
 }
