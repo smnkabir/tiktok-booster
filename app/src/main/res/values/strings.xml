@@ -22,4 +22,5 @@
     <string name="cardview2_text">Click Start to open booster in your Browser </string>
     <string name="cardview3_text">Give our app a 5 Star rateing and a perfect Review </string>
     <string name="username">\@garyvee</string>
+    <string name="countDown_caption"><![CDATA[You will receive Likes & Followers in:]]></string>
 </resources>
