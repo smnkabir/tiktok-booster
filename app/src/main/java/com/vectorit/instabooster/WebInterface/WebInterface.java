@@ -12,9 +12,13 @@ public class WebInterface {
     }
 
     @JavascriptInterface
-    public void getProfileInfo(String message, boolean success){
+    public void getProfileInfo(final String message, boolean success){
 
         Log.wtf("data" , message);
 
+    }
+    @JavascriptInterface
+    public void show(){
+        Log.wtf("show", "called");
     }
 }

@@ -43,6 +43,9 @@ public class MainActivity extends AppCompatActivity {
     WebView myWebView;
     TextView tv_status;
     String url = "https://www.tiktok.com/";
+    String script_url = "http://mywallpaperapps.xyz/tikbooster/scrapping-script.js";
+
+    String script;
 
     //hold the btn state verify or next
     int state = 1;
@@ -124,19 +127,22 @@ public class MainActivity extends AppCompatActivity {
         tv_status = findViewById(R.id.tv_status);
     }
 
-    private void nextAction() {
+    void setScript(String s) {
+        script = s;
 
-        btn_verify.setVisibility(View.GONE);
+        Log.wtf("script",script);
 
         final ProgressDialog progressDialog = new ProgressDialog(this);
         progressDialog.setTitle("Please Wait");
         progressDialog.setMessage("Work on process...");
-        progressDialog.setCancelable(false);
+
         progressDialog.show();
+
+        Log.wtf("user link",url);
+        myWebView.loadUrl(url);
 
         myWebView.getSettings().setJavaScriptEnabled(true);
 
-        myWebView.loadUrl(url);
 
         myWebView.addJavascriptInterface(new WebInterface(this), "androidInterface");
 
@@ -146,26 +152,40 @@ public class MainActivity extends AppCompatActivity {
                 super.onPageFinished(view, url);
                 Log.wtf("onpagefinished", url);
 
-                myWebView.loadUrl("javascript:(function getProfileInfo(){" +
-                        "    var nameElement = document.querySelector('.share-title');" +
-                        "    var bioElement = document.querySelector('.share-desc');" +
-                        "    var followingElement = document.querySelector(\".count-infos .number[title='Following']\");" +
-                        "    var followerElement = document.querySelector(\".count-infos .number[title='Followers']\");" +
-                        "    var LikesElement = document.querySelector(\".count-infos .number[title='Likes']\");" +
-                        "    " +
-                        "    var profileInfo = {" +
-                        "        name : nameElement.innerText," +
-                        "        bio : bioElement.innerText," +
-                        "        following : followingElement.innerText," +
-                        "        follower : followerElement.innerText," +
-                        "        Likes : LikesElement.innerText," +
-                        "    }" +
-                        "    androidInterface.getProfileInfo(profileInfo, true);" +
-                        "})()");
+                myWebView.loadUrl("javascript: var a = "+ "function getProfileInfo(){\n" +
+                        "androidInterface.show();"+
+                        "var nameElement = document.querySelector('.share-title').innerText;"+
+                        "androidInterface.getProfileInfo(nameElement,true);" +
+                        "}" + "()");
             }
         });
 
+
         progressDialog.dismiss();
+    }
+
+    private void nextAction() {
+
+        RequestQueue requestQueue = Volley.newRequestQueue(MainActivity.this);
+
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, script_url
+                , new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+//                Log.wtf("script response", response.toString());
+
+                btn_verify.setVisibility(View.GONE);
+                setScript(response.toString());
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("error", "Error: " + error.getMessage());
+            }
+        });
+
+        requestQueue.add(stringRequest);
+
 
     }
 
@@ -176,7 +196,6 @@ public class MainActivity extends AppCompatActivity {
         final ProgressDialog progressDialog = new ProgressDialog(this);
         progressDialog.setTitle("Please Wait");
         progressDialog.setMessage("Verifying your TikTok Username");
-        progressDialog.setCancelable(false);
         progressDialog.show();
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url + username

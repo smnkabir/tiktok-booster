@@ -12,8 +12,9 @@
         android:supportsRtl="true"
         android:usesCleartextTraffic="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".HashTagActivity">
-        <activity android:name=".ProfileActivity"></activity>
+
+        <activity android:name=".HashTagActivity"/>
+        <activity android:name=".ProfileActivity"/>
         <activity
             android:name=".SplashActivity"
             android:theme="@style/AppThemeLauncher">
