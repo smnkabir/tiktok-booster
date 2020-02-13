@@ -13,10 +13,12 @@
         android:usesCleartextTraffic="true"
         android:theme="@style/AppTheme">
 
+        <activity android:name=".MainActivity" />
         <activity android:name=".HashTagActivity"/>
-        <activity android:name=".ProfileActivity"/>
+        <activity android:name=".Booster_Activity"/>
+        <activity android:name=".SplashActivity"/>
         <activity
-            android:name=".SplashActivity"
+            android:name=".ProfileActivity"
             android:theme="@style/AppThemeLauncher">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,7 +26,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity" />
     </application>
 
 </manifest>
