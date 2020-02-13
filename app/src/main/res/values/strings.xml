@@ -2,5 +2,24 @@
     <string name="app_name">Insta Booster</string>
     <string name="caption"><![CDATA[Boost your TikTok likes & followers  just in few easy step for FREE!]]></string>
     <string name="textInputHint">\@username</string>
+
+    <!--HashTag Activity String-->
+    <string name="hashtag_tile_str">Hashtags</string>
+    <string name="hashtag_subtile_str">Here is a list of the best tags in \nTiktok</string>
+    <string name="hashtag_copy">Copy</string>
+
+    <!--HashTag Collection-->
+    <string name="hashtag_string_1">#tiktokmusically #tiktokartist #tiktokmeme #tiktokaccount #tiktokdaily #tiktokaddict #tiktokjokes #tiktokvietnam #tiktoksea #tiktokasia #tiktokink #tiktokglobal #tiktokzone #tiktokscene #tiktokofficial #tiktokmuser #tiktokfame #tiktokupdates #tiktokgirls #tiktokdancer #tiktokstars #tiktokking #tiktokbanned #tiktoklove #tiktoktrending #tiktokfitness #tiktokstar #tiktokthailand #tiktokduets #tiktokpopular</string>
+    <string name="hashtag_string_2">#tiktokmusically #tiktokartist #tiktokmeme #tiktokaccount #tiktokdaily #tiktokaddict #tiktokjokes #tiktokvietnam #tiktoksea #tiktokasia #tiktokink #tiktokglobal #tiktokzone #tiktokscene #tiktokofficial #tiktokmuser #tiktokfame #tiktokupdates #tiktokgirls #tiktokdancer #tiktokstars #tiktokking #tiktokbanned #tiktoklove #tiktoktrending #tiktokfitness #tiktokstar #tiktokthailand #tiktokduets #tiktokpopular</string>
+    <string name="hashtag_string_3">#instatiktok #igtiktok #instagramtiktok #tiktoktime #tiktokid #tiktokhindi #tiktokhots #tiktokdog #tiktokcat #tiktokanime #tiktoklife #tiktoklifestyle #tiktokindian #tiktokfashion #tiktokindiafamous #tiktokmumbai #tiktokqueen #tiktokmusic #tiktokcringe #tiktokturkey #tiktokpakistan #tiktokvids #tiktokclips #tiktokchallenge #tiktokwow #tiktoknepal #tiktoktamil #tiktokboys #tiktokexpert #tiktokecuador</string>
+    <string name="hashtag_string_4">#tiktokvibes #tiktokgallery #tiktokpower #tiktokactor #tiktokacting #tiktokaction #tiktokcosplay #tiktokstory #tiktokgym #tiktokrewind #tiktokr #tiktokworld #tiktokhitz #tiktokmuserid #tiktokindopost #tiktokspam #tiktokm #tiktokmood #tiktoklike #tiktoklaunchparty #tiktokcouple #tiktokcanada #tiktokusa #tiktokstartup #tiktokcambodia #tiktokbest #tiktokkids #tiktokchile #tiktokcina #tiktokcute</string>
+    <string name="hashtag_string_5">#tiktoklive #tiktokperu #tiktokfollow #tiktokmalaysia #tiktokrussia #tiktoklucu #tiktokquotes #tiktokposts #tiktokfeature #tiktoksay #tiktokcolombia #tiktokmedan #tiktokcomedy #tiktokmusers #tiktokmuserhits #tiktokhongkong #tiktokidola #tiktokkeren #tiktokfriends #tiktokvictorious #tiktokpalembang #tiktoktiktok #tiktokviews #tiktokitaly #tiktoknonflop #tiktokremaja #tiktokvines #tiktokvenenzuela #tiktokbrasil #tiktokfans</string>
+
+
+    <!--Booster Activity-->
+    <string name="textviw2">Get Thousnds+ of Likes and Followers and Boost Your Account for  Free </string>
+    <string name="card_view1_text">Follow us on instagram its required to unlock Start </string>
+    <string name="cardview2_text">Click Start to open booster in your Browser </string>
+    <string name="cardview3_text">Give our app a 5 Star rateing and a perfect Review </string>
     <string name="username">\@garyvee</string>
 </resources>
