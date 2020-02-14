@@ -39,6 +39,7 @@ public class Booster_Activity extends AppCompatActivity implements View.OnClickL
         cv_follow.setOnClickListener(this);
         iv_menu_back.setOnClickListener(this);
         btn_start.setOnClickListener(this);
+        btn_start.setClickable(false);
     }
 
     @Override

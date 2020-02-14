@@ -206,45 +206,29 @@
                     </androidx.cardview.widget.CardView>
 
                     <androidx.cardview.widget.CardView
-                        android:id="@+id/cv_boost"
+                        android:id="@+id/cv_server_stopped"
                         android:layout_width="match_parent"
                         android:layout_height="60dp"
                         android:layout_marginTop="10dp"
                         app:cardCornerRadius="10dp">
 
-                        <ImageView
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:scaleType="fitXY"
-                            android:src="@drawable/booster" />
-
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent">
-
-                            <ImageView
-                                android:layout_width="50dp"
-                                android:layout_height="50dp"
-                                android:layout_margin="5dp"
-                                android:background="@drawable/ic_booster" />
-
                             <TextView
-                                android:id="@+id/tv_boost"
+                                android:id="@+id/tv_server"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:gravity="center"
-                                android:text="BOOSTER"
-                                android:textColor="@color/white"
+                                android:drawableLeft="@drawable/ic_warning_black_24dp"
+                                android:text="*Server is stopped"
+                                android:textColor="#ff6d58"
                                 android:textSize="30sp" />
 
-                        </RelativeLayout>
                         <androidx.cardview.widget.CardView
-                            android:id="@+id/cv_server_stopped"
+                            android:id="@+id/cv_boost"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:layout_marginTop="10dp"
                             app:cardCornerRadius="10dp"
                             >
+                            <requestFocus></requestFocus>
 
                             <ImageView
                                 android:layout_width="match_parent"

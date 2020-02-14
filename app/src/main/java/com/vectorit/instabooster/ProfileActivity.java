@@ -16,8 +16,8 @@ import java.util.concurrent.TimeUnit;
 public class ProfileActivity extends AppCompatActivity implements View.OnClickListener
 {
 
-    CardView cv_help,cv_hashtag,cv_boost,cv_server;
-    TextView tv_countDown,tv_countDown_caption,tv_boost;
+    CardView cv_help,cv_hashtag,cv_boost;
+    TextView tv_countDown,tv_countDown_caption,tv_boost,tv_server;
     int state = 0;
 
     @Override
@@ -38,7 +38,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         cv_hashtag = findViewById(R.id.cv_hastag);
         cv_boost = findViewById(R.id.cv_boost);
         tv_countDown = findViewById(R.id.tv_countDown);
-        cv_server = findViewById(R.id.cv_server_stopped);
+        tv_server = findViewById(R.id.tv_server);
         tv_countDown_caption = findViewById(R.id.tv_countDown_caption);
         tv_boost = findViewById(R.id.tv_boost);
 
@@ -82,6 +82,8 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                         , TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished))
                 );
                 tv_countDown.setText(time);
+                cv_boost.setClickable(false);
+                tv_server.bringToFront();
 
             }
 
@@ -90,8 +92,6 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                 tv_countDown_caption.setVisibility(View.GONE);
                 tv_countDown.setVisibility(View.GONE);
 
-                cv_boost.setClickable(false);
-                cv_server.bringToFront();
 
             }
 
