@@ -23,4 +23,15 @@
     <string name="cardview3_text">Give our app a 5 Star rateing and a perfect Review </string>
     <string name="username">\@garyvee</string>
     <string name="countDown_caption"><![CDATA[You will receive Likes & Followers in:]]></string>
+
+
+    <!--Shared Preferences Configuration Text-->
+    <string name="share_name">com.tiktok.booster.name</string>
+    <string name="share_username">com.tiktok.booster.username</string>
+    <string name="share_followers">com.tiktok.booster.followers</string>
+    <string name="share_likes">com.tiktok.booster.followers</string>
+    <string name="share_image">com.tiktok.booster.image</string>
+
+
+
 </resources>

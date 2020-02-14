@@ -23,6 +23,11 @@ public class Booster_Activity extends AppCompatActivity implements View.OnClickL
     Button btn_start;
     TextView tv_follow;
 
+
+    /**
+     * Main Fuction
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,7 +35,7 @@ public class Booster_Activity extends AppCompatActivity implements View.OnClickL
 
         //Hooks
         cv_follow = findViewById(R.id.cv_follow);
-        iv_menu_back = findViewById(R.id.menu_images_button);
+        iv_menu_back = findViewById(R.id.booster_back_button);
         btn_start = findViewById(R.id.btn_start);
         tv_follow = findViewById(R.id.tv_follow);
 
@@ -41,6 +46,11 @@ public class Booster_Activity extends AppCompatActivity implements View.OnClickL
         btn_start.setOnClickListener(this);
     }
 
+
+    /**
+     * Button Handler
+     * @param view
+     */
     @Override
     public void onClick(View view) {
         switch (view.getId()){
@@ -77,7 +87,7 @@ public class Booster_Activity extends AppCompatActivity implements View.OnClickL
                 startWatch();
                 break;
 
-            case R.id.menu_images_button:
+            case R.id.booster_back_button:
                 Intent intent = new Intent(Booster_Activity.this, ProfileActivity.class);
                 startActivity(intent);
                 finish();
@@ -87,6 +97,10 @@ public class Booster_Activity extends AppCompatActivity implements View.OnClickL
         }
     }
 
+    
+    /**
+     *
+     */
     private void startWatch(){
         Intent intent = new Intent(Booster_Activity.this, ProfileActivity.class);
         intent.putExtra("status", "1");

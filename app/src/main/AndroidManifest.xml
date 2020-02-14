@@ -10,16 +10,22 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:usesCleartextTraffic="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true">
 
-        <activity android:name=".MainActivity" >
+        <activity
+            android:name=".HelpActivity"
+            android:parentActivityName=".ProfileActivity">
 
         </activity>
 
-        <activity android:name=".HashTagActivity"/>
+        <activity android:name=".MainActivity"></activity>
 
-        <activity android:name=".Booster_Activity"/>
+        <activity android:name=".HashTagActivity"
+            android:parentActivityName=".ProfileActivity" />
+
+        <activity android:name=".Booster_Activity"
+            android:parentActivityName=".ProfileActivity"/>
 
         <activity android:name=".SplashActivity">
             <intent-filter>
@@ -29,7 +35,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".ProfileActivity"
             android:theme="@style/AppThemeLauncher">

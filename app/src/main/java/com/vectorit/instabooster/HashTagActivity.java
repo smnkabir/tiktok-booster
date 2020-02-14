@@ -15,6 +15,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+/**
+ * Show Predefine Tiktok HASHTag Data from Array.
+ */
 public class HashTagActivity extends AppCompatActivity {
 
     private LinearLayout dotsLayout;
@@ -70,7 +73,7 @@ public class HashTagActivity extends AppCompatActivity {
         backbn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(HashTagActivity.this,MainActivity.class);
+                Intent intent = new Intent(HashTagActivity.this,ProfileActivity.class);
                 startActivity(intent);
                 finish();
             }
@@ -108,13 +111,11 @@ public class HashTagActivity extends AppCompatActivity {
             addBottomDots(position);
         }
 
+        /*Useless*/
         @Override
-        public void onPageScrolled(int arg0, float arg1, int arg2) {
-        }
-
+        public void onPageScrolled(int arg0, float arg1, int arg2) {}
         @Override
-        public void onPageScrollStateChanged(int arg0) {
-        }
+        public void onPageScrollStateChanged(int arg0) {}
     };
 
     /**
