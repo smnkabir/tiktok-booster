@@ -23,6 +23,26 @@ public class SharedPreferencesConfi {
      * Set Name
      * @param status
      */
+    public void setBoostedStatus(boolean status){
+        sharedPreferences.edit().putBoolean(context.getResources().getString(R.string.share_boostedstatus),
+                status).apply();
+    }
+
+    /**
+     * Get Name
+     * @return
+     */
+    public boolean getsetBoostedStatus(){
+        boolean status;
+        status = sharedPreferences.getBoolean(context.getResources().getString(R.string.share_boostedstatus),
+                false);
+        return status;
+    }
+
+    /**
+     * Set Name
+     * @param status
+     */
     public void setName(String status){
         sharedPreferences.edit().putString(context.getResources().getString(R.string.share_name),
                 status).apply();
