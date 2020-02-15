@@ -20,17 +20,16 @@
         <!--Activity-->
         <activity
             android:name=".HelpActivity"
-            android:parentActivityName=".ProfileActivity">
-
+            >
         </activity>
 
         <activity android:name=".MainActivity"></activity>
 
         <activity android:name=".HashTagActivity"
-            android:parentActivityName=".ProfileActivity" />
+            />
 
         <activity android:name=".Booster_Activity"
-            android:parentActivityName=".ProfileActivity"/>
+            />
 
         <activity android:name=".SplashActivity">
             <intent-filter>
@@ -48,13 +47,6 @@
             </intent-filter>
         </activity>
 
-        <!-- Bortcast Reciver-->
-        <receiver
-            android:name=".SensorRestarterBroadcastReceiver"
-            android:enabled="true"
-            android:exported="true"
-            android:label="RestartServiceWhenStopped">
-        </receiver>
     </application>
 
 </manifest>

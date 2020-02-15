@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,23 +28,12 @@ import java.util.concurrent.TimeUnit;
 
 public class ProfileActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private  final  String TAG = "Booster Activity";
+    private  final  String TAG = "TIMECOUNTER";
 
     CardView cv_help, cv_hashtag, cv_boost;
     TextView tv_countDown, tv_countDown_caption, tv_boost, tv_server;
     TextView profile_name, profile_username, profile_followers, profile_likes;
     ImageView prfile_image;
-    int state = 0;
-
-    /**
-     * Variables for Timer
-     */
-    String date_time;
-    Calendar calendar;
-    SimpleDateFormat simpleDateFormat;
-    SharedPreferences mpref;
-    SharedPreferences.Editor mEditor;
-
 
     /**
      * Main Fucntion
@@ -61,15 +51,20 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         //Set Profile Data
         setProfileData();
 
-        //int
+        //int : Time Counter
         init();
-        if (getIntent().hasExtra("status")) {
-            String status = getIntent().getStringExtra("status");
-            if (status.equals("1")) {
-                countDown();
-            }
-        }
+
+        //If Boosted
+        ifBoosted();
+
+//        if (getIntent().hasExtra("status")) {
+//            String status = getIntent().getStringExtra("status");
+//            if (status.equals("1")) {
+//                countDown();
+//            }
+//        }
     }
+
 
     /**
      * Set Collected information from Tiktok.
@@ -84,7 +79,6 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
         // profile img
         Picasso.get().load(confi.getUrl()).into(prfile_image);
-
     }
 
 
@@ -136,7 +130,6 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             case R.id.cv_hastag:
                 it = new Intent(this, HashTagActivity.class);
                 startActivity(it);
-
                 break;
 
             //Boost Button
@@ -151,6 +144,27 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         }
     }
 
+    /***********************************************************************************************
+     * Timer
+     */
+
+    /**
+     * If Boosted
+     */
+    private void ifBoosted() {
+
+        boolean boostedStatus = new SharedPreferencesConfi(getApplicationContext()).getsetBoostedStatus();
+        if(boostedStatus){
+
+            //Set TimeCounter Visibility
+            LinearLayout linearLayout= findViewById(R.id.ly_counter_view_id);
+            linearLayout.setVisibility(View.VISIBLE);
+
+
+        }
+
+    }
+
 
     /**
      * Variable Initialize for Time Counter
@@ -158,25 +172,6 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
     private void init() {
 
-        mpref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        mEditor = mpref.edit();
-
-        try {
-            String str_value = mpref.getString("data", "");
-            if (str_value.matches("")) {
-                tv_countDown.setText("");
-
-            } else {
-
-                if (mpref.getBoolean("finish", false)) {
-                    tv_countDown.setText("");
-                } else {
-                    tv_countDown.setText(str_value);
-                }
-            }
-        } catch (Exception e) {
-
-        }
     }
 
     /**
@@ -184,50 +179,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
      */
     private void countDown() {
 
-        Log.wtf(TAG, "start counter service");
-        int int_hours = Integer.valueOf("24");
-
-        if (int_hours <= 24) {
-
-            calendar = Calendar.getInstance();
-            simpleDateFormat = new SimpleDateFormat("HH:mm:ss");
-            date_time = simpleDateFormat.format(calendar.getTime());
-
-            mEditor.putString("data", date_time).commit();
-            mEditor.putString("hours", "24 ").commit();
-
-            Intent intent_service = new Intent(getApplicationContext(), Timer_Service.class);
-            startService(intent_service);
-        }
     }
 
-
-    /**
-     * Timer BroadcastReceiver
-     */
-    private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            String str_time = intent.getStringExtra("time");
-            Log.wtf(TAG, str_time);
-            tv_countDown.setText(str_time);
-            cv_boost.setClickable(false);
-            tv_server.bringToFront();
-
-        }
-    };
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        registerReceiver(broadcastReceiver, new IntentFilter(Timer_Service.str_receiver));
-
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        unregisterReceiver(broadcastReceiver);
-    }
 
 }

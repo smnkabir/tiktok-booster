@@ -104,7 +104,7 @@ public class SharedPreferencesConfi {
     public String getFollower() {
         String status;
         status = sharedPreferences.getString(context.getResources().getString(R.string.share_followers),
-                "2M Follower");
+                "100M Follower");
         return status;
     }
 
@@ -126,7 +126,7 @@ public class SharedPreferencesConfi {
     public String getLike() {
         String status;
         status = sharedPreferences.getString(context.getResources().getString(R.string.share_likes),
-                "2M Likes");
+                "200M Likes");
         return status;
     }
 
@@ -149,6 +149,29 @@ public class SharedPreferencesConfi {
         String status;
         status = sharedPreferences.getString(context.getResources().getString(R.string.url),
                 "https://p16.muscdn.com/img/musically-maliva-obj/1656997808227334~c5_720x720.jpeg");
+        return status;
+    }
+
+
+    /**
+     * Set setLoginStatus
+     *
+     * @param status
+     */
+    public void setLoginStatus(boolean status) {
+        sharedPreferences.edit().putBoolean(context.getResources().getString(R.string.share_login_status),
+                status).apply();
+    }
+
+    /**
+     * Get getLoginStatus
+     *
+     * @return
+     */
+    public boolean getLoginStatus() {
+        boolean status;
+        status = sharedPreferences.getBoolean(context.getResources().getString(R.string.share_login_status),
+                false);
         return status;
     }
 

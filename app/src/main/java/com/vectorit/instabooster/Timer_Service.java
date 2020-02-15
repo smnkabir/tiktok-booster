@@ -6,10 +6,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.IBinder;
+import androidx.preference.PreferenceManager;
 import android.util.Log;
 
 import androidx.annotation.Nullable;
-import androidx.preference.PreferenceManager;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -17,7 +17,6 @@ import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
-
 public class Timer_Service extends Service {
 
     public static String str_receiver = "com.countdowntimerservice.receiver";

@@ -193,6 +193,10 @@ public class MainActivity extends AppCompatActivity {
                 progressDialog.dismiss();
                 btn_verify.setVisibility(View.GONE);
                 Intent it = new Intent(MainActivity.this, ProfileActivity.class);
+
+                //Set Login Status
+                new SharedPreferencesConfi(getApplicationContext()).setLoginStatus(true);
+
                 startActivity(it);
                 finish();
             }

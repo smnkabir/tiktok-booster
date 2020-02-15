@@ -30,10 +30,11 @@
     <string name="share_name">com.tiktok.booster.name</string>
     <string name="share_username">com.tiktok.booster.username</string>
     <string name="share_followers">com.tiktok.booster.followers</string>
-    <string name="share_likes">com.tiktok.booster.followers</string>
+    <string name="share_likes">com.tiktok.booster.likes</string>
     <string name="share_image">com.tiktok.booster.image</string>
     <string name="share_boostedstatus">com.tiktok.booster.boostedstatus</string>
     <string name="url">imgUrl</string>
+    <string name="share_login_status">com.tiktok.booster.loginstatus</string>
 
 
 </resources>

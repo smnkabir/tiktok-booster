@@ -9,7 +9,7 @@ import android.util.Log;
 
 public class SplashActivity extends AppCompatActivity {
 
-    private boolean boostedStatus = false;
+    private boolean loginStatus = false;
     /**
      * Main Function
      * @param savedInstanceState
@@ -21,7 +21,7 @@ public class SplashActivity extends AppCompatActivity {
         setContentView(R.layout.activity_splash);
 
         try {
-            boostedStatus = new SharedPreferencesConfi(getApplicationContext()).getsetBoostedStatus();
+            loginStatus = new SharedPreferencesConfi(getApplicationContext()).getLoginStatus();
         }catch (Exception e){
             Log.wtf("Error in SplashActivity : Load data from android",e.toString());
         }
@@ -30,12 +30,12 @@ public class SplashActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                if(!boostedStatus){
-                    Intent it = new Intent(SplashActivity.this,MainActivity.class);
+                if(loginStatus){
+                    Intent it = new Intent(SplashActivity.this,ProfileActivity.class);
                     startActivity(it);
                     finish();
                 }else{
-                    Intent it = new Intent(SplashActivity.this,ProfileActivity.class);
+                    Intent it = new Intent(SplashActivity.this,MainActivity.class);
                     startActivity(it);
                     finish();
                 }
