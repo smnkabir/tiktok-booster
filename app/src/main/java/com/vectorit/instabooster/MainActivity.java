@@ -1,7 +1,6 @@
 package com.vectorit.instabooster;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.ProgressDialog;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
@@ -17,7 +16,6 @@ import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -49,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
 
     //hold the btn state verify or next
     int state = 1;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

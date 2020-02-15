@@ -9,6 +9,9 @@ import androidx.annotation.NonNull;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+/**
+ * PagerAdapter for show data in page viewer in HASHTag Activity
+ */
 public class CustomPagerAdapter extends PagerAdapter {
 
         private String[] items;
@@ -20,11 +23,13 @@ public class CustomPagerAdapter extends PagerAdapter {
             this.items = items;
         }
 
+
         @Override
         public boolean isViewFromObject(@NonNull View view, @NonNull Object object)
         {
             return view == object;
         }
+
 
         @Override
         public int getCount()
@@ -32,11 +37,13 @@ public class CustomPagerAdapter extends PagerAdapter {
             return items.length;
         }
 
+
         @Override
         public void destroyItem(@NonNull ViewGroup container, int position, Object object)
         {
             ((ViewPager) container).removeView((View)object);
         }
+
 
         @NonNull
         @Override

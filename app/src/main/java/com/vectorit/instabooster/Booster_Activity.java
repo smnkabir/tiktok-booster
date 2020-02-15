@@ -1,5 +1,6 @@
 package com.vectorit.instabooster;
 
+import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.graphics.Color;
@@ -23,6 +24,11 @@ public class Booster_Activity extends AppCompatActivity implements View.OnClickL
     Button btn_start;
     TextView tv_follow;
 
+
+    /**
+     * Main Fuction
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,7 +36,7 @@ public class Booster_Activity extends AppCompatActivity implements View.OnClickL
 
         //Hooks
         cv_follow = findViewById(R.id.cv_follow);
-        iv_menu_back = findViewById(R.id.menu_images_button);
+        iv_menu_back = findViewById(R.id.booster_back_bn_id);
         btn_start = findViewById(R.id.btn_start);
         tv_follow = findViewById(R.id.tv_follow);
 
@@ -39,12 +45,21 @@ public class Booster_Activity extends AppCompatActivity implements View.OnClickL
         cv_follow.setOnClickListener(this);
         iv_menu_back.setOnClickListener(this);
         btn_start.setOnClickListener(this);
-        btn_start.setClickable(false);
+
+        //Disable Start Button
+        btn_start.setEnabled(false);
     }
 
+
+    /**
+     * Button Handler
+     * @param view
+     */
     @Override
     public void onClick(View view) {
         switch (view.getId()){
+
+            //Follower Button
             case R.id.cv_follow:
 
                 Uri uri = Uri.parse("http://instagram.com/_u/cristiano/");
@@ -62,11 +77,9 @@ public class Booster_Activity extends AppCompatActivity implements View.OnClickL
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                            tv_follow.setText("");
-                            tv_follow.setBackground(getResources().getDrawable(R.drawable.ic_done_black_24dp));
-                        }
+                        btn_start.setEnabled(true);
                         btn_start.setClickable(true);
+
                         GradientDrawable myGrad = (GradientDrawable) btn_start.getBackground();
                         myGrad.setColor( getResources().getColor(R.color.unlock_start));
                         btn_start.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
@@ -78,7 +91,7 @@ public class Booster_Activity extends AppCompatActivity implements View.OnClickL
                 startWatch();
                 break;
 
-            case R.id.menu_images_button:
+            case R.id.booster_back_bn_id:
                 Intent intent = new Intent(Booster_Activity.this, ProfileActivity.class);
                 startActivity(intent);
                 finish();
@@ -88,10 +101,31 @@ public class Booster_Activity extends AppCompatActivity implements View.OnClickL
         }
     }
 
+    
+    /**
+     *
+     */
     private void startWatch(){
-        Intent intent = new Intent(Booster_Activity.this, ProfileActivity.class);
-        intent.putExtra("status", "1");
-        startActivity(intent);
-        finish();
+        final ProgressDialog progressDialog = new ProgressDialog(this);
+        progressDialog.setTitle("Please Wait");
+        progressDialog.setMessage("Work on process...");
+
+        progressDialog.show();
+        //Thread for wait extra time
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                progressDialog.dismiss();
+                Intent intent = new Intent(Booster_Activity.this, ProfileActivity.class);
+                intent.putExtra("status", "1");
+                startActivity(intent);
+
+                //Set Boosted Status
+                new SharedPreferencesConfi(getApplicationContext()).setBoostedStatus(true);
+
+                finish();
+            }
+        }, 5000);
+
     }
 }
