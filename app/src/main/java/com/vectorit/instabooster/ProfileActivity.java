@@ -2,12 +2,14 @@ package com.vectorit.instabooster;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
@@ -16,23 +18,16 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.squareup.picasso.Picasso;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.concurrent.TimeUnit;
 
-public class ProfileActivity extends AppCompatActivity implements View.OnClickListener
-{
-    private final String TAG = "Booster_Activity";
-
-    CardView cv_help,cv_hashtag,cv_boost;
-    TextView tv_countDown,tv_countDown_caption,tv_boost,tv_server;
-    TextView profile_name,profile_username,profile_followers,profile_likes;
-
-import com.squareup.picasso.Picasso;
-
-import java.util.concurrent.TimeUnit;
-
 public class ProfileActivity extends AppCompatActivity implements View.OnClickListener {
+
+    private  final  String TAG = "Booster Activity";
 
     CardView cv_help, cv_hashtag, cv_boost;
     TextView tv_countDown, tv_countDown_caption, tv_boost, tv_server;
@@ -160,7 +155,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     /**
      * Variable Initialize for Time Counter
      */
-     
+
     private void init() {
 
         mpref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
@@ -170,21 +165,6 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             String str_value = mpref.getString("data", "");
             if (str_value.matches("")) {
                 tv_countDown.setText("");
-                
-    private synchronized void countDown() {
-        new CountDownTimer(86400 * 1000, 1000) {
-
-            public void onTick(long millisUntilFinished) {
-                tv_countDown_caption.setVisibility(View.VISIBLE);
-                tv_countDown.setVisibility(View.VISIBLE);
-                String time = String.format("%02d:%02d:%02d"
-                        , TimeUnit.MILLISECONDS.toHours(millisUntilFinished)
-                        , TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(millisUntilFinished))
-                        , TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished))
-                );
-                tv_countDown.setText(time);
-                cv_boost.setClickable(false);
-                tv_server.bringToFront();
 
             } else {
 
@@ -202,35 +182,34 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     /**
      * 24 Hour counter
      */
-    private void countDown(){
+    private void countDown() {
 
-            Log.wtf(TAG,"start counter service");
-            int int_hours = Integer.valueOf("24");
+        Log.wtf(TAG, "start counter service");
+        int int_hours = Integer.valueOf("24");
 
-            if (int_hours<=24) {
+        if (int_hours <= 24) {
 
-                calendar = Calendar.getInstance();
-                simpleDateFormat = new SimpleDateFormat("HH:mm:ss");
-                date_time = simpleDateFormat.format(calendar.getTime());
+            calendar = Calendar.getInstance();
+            simpleDateFormat = new SimpleDateFormat("HH:mm:ss");
+            date_time = simpleDateFormat.format(calendar.getTime());
 
-                mEditor.putString("data", date_time).commit();
-                mEditor.putString("hours", "24 ").commit();
+            mEditor.putString("data", date_time).commit();
+            mEditor.putString("hours", "24 ").commit();
 
-                Intent intent_service = new Intent(getApplicationContext(), Timer_Service.class);
-                startService(intent_service);
-            }
+            Intent intent_service = new Intent(getApplicationContext(), Timer_Service.class);
+            startService(intent_service);
+        }
     }
 
 
     /**
-     *
      * Timer BroadcastReceiver
      */
     private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             String str_time = intent.getStringExtra("time");
-            Log.wtf(TAG,str_time);
+            Log.wtf(TAG, str_time);
             tv_countDown.setText(str_time);
             cv_boost.setClickable(false);
             tv_server.bringToFront();
@@ -241,7 +220,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     protected void onResume() {
         super.onResume();
-        registerReceiver(broadcastReceiver,new IntentFilter(Timer_Service.str_receiver));
+        registerReceiver(broadcastReceiver, new IntentFilter(Timer_Service.str_receiver));
 
     }
 
