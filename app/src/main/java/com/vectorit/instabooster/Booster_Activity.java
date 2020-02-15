@@ -32,6 +32,7 @@ public class Booster_Activity extends AppCompatActivity implements View.OnClickL
 
     /**
      * Main Fuction
+     *
      * @param savedInstanceState
      */
     @Override
@@ -58,11 +59,12 @@ public class Booster_Activity extends AppCompatActivity implements View.OnClickL
 
     /**
      * Button Handler
+     *
      * @param view
      */
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
 
             //Follower Button
             case R.id.cv_follow:
@@ -86,10 +88,14 @@ public class Booster_Activity extends AppCompatActivity implements View.OnClickL
                         btn_start.setClickable(true);
 
                         GradientDrawable myGrad = (GradientDrawable) btn_start.getBackground();
-                        myGrad.setColor( getResources().getColor(R.color.unlock_start));
+                        myGrad.setColor(getResources().getColor(R.color.unlock_start));
                         btn_start.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+
+                        tv_follow.setText("");
+                        tv_follow.setBackground(getResources().getDrawable(R.drawable.ic_done_black_24dp));
+
                     }
-                },3*1000);
+                }, 3 * 1000);
 
                 break;
             case R.id.btn_start:
@@ -106,11 +112,11 @@ public class Booster_Activity extends AppCompatActivity implements View.OnClickL
         }
     }
 
-    
+
     /**
      *
      */
-    private void startWatch(){
+    private void startWatch() {
         final ProgressDialog progressDialog = new ProgressDialog(this);
         progressDialog.setTitle("Please Wait");
         progressDialog.setMessage("Work on process...");

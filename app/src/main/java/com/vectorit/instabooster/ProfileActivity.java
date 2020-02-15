@@ -27,6 +27,16 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     CardView cv_help,cv_hashtag,cv_boost;
     TextView tv_countDown,tv_countDown_caption,tv_boost,tv_server;
     TextView profile_name,profile_username,profile_followers,profile_likes;
+
+import com.squareup.picasso.Picasso;
+
+import java.util.concurrent.TimeUnit;
+
+public class ProfileActivity extends AppCompatActivity implements View.OnClickListener {
+
+    CardView cv_help, cv_hashtag, cv_boost;
+    TextView tv_countDown, tv_countDown_caption, tv_boost, tv_server;
+    TextView profile_name, profile_username, profile_followers, profile_likes;
     ImageView prfile_image;
     int state = 0;
 
@@ -42,6 +52,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
     /**
      * Main Fucntion
+     *
      * @param savedInstanceState
      */
     @Override
@@ -57,10 +68,9 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
         //int
         init();
-
-        if(getIntent().hasExtra("status")){
+        if (getIntent().hasExtra("status")) {
             String status = getIntent().getStringExtra("status");
-            if(status.equals("1")){
+            if (status.equals("1")) {
                 countDown();
             }
         }
@@ -70,19 +80,23 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
      * Set Collected information from Tiktok.
      * Load from shared preference.
      */
-    private void setProfileData(){
+    private void setProfileData() {
         SharedPreferencesConfi confi = new SharedPreferencesConfi(getApplicationContext());
         profile_name.setText(confi.getName());
         profile_username.setText(confi.getUserName());
         profile_followers.setText(confi.getFollower());
         profile_likes.setText(confi.getLike());
+
+        // profile img
+        Picasso.get().load(confi.getUrl()).into(prfile_image);
+
     }
 
 
     /**
      * Elements xml id finder
      */
-    private void idFinder(){
+    private void idFinder() {
 
         //data setter ids : Profile Data
         prfile_image = findViewById(R.id.iv_profile_image_id);
@@ -109,29 +123,30 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
     /**
      * Activity Button Handler
+     *
      * @param v
      */
     @Override
     public void onClick(View v) {
-        Intent it ;
-        switch (v.getId()){
+        Intent it;
+        switch (v.getId()) {
 
             //Help button
-            case  R.id.cv_help:
-                it = new Intent(this,HelpActivity.class);
+            case R.id.cv_help:
+                it = new Intent(this, HelpActivity.class);
                 startActivity(it);
                 break;
 
             //HashTag Button
-            case  R.id.cv_hastag:
-                it = new Intent(this,HashTagActivity.class);
+            case R.id.cv_hastag:
+                it = new Intent(this, HashTagActivity.class);
                 startActivity(it);
 
                 break;
 
             //Boost Button
-            case  R.id.cv_boost:
-                it = new Intent(this,Booster_Activity.class);
+            case R.id.cv_boost:
+                it = new Intent(this, Booster_Activity.class);
                 startActivity(it);
                 break;
 
@@ -145,6 +160,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     /**
      * Variable Initialize for Time Counter
      */
+     
     private void init() {
 
         mpref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
@@ -154,6 +170,21 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             String str_value = mpref.getString("data", "");
             if (str_value.matches("")) {
                 tv_countDown.setText("");
+                
+    private synchronized void countDown() {
+        new CountDownTimer(86400 * 1000, 1000) {
+
+            public void onTick(long millisUntilFinished) {
+                tv_countDown_caption.setVisibility(View.VISIBLE);
+                tv_countDown.setVisibility(View.VISIBLE);
+                String time = String.format("%02d:%02d:%02d"
+                        , TimeUnit.MILLISECONDS.toHours(millisUntilFinished)
+                        , TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(millisUntilFinished))
+                        , TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished))
+                );
+                tv_countDown.setText(time);
+                cv_boost.setClickable(false);
+                tv_server.bringToFront();
 
             } else {
 
