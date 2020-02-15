@@ -13,6 +13,11 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
 
+        <!--Services-->
+        <service android:name=".Timer_Service"
+            android:enabled="true"/>
+
+        <!--Activity-->
         <activity
             android:name=".HelpActivity"
             android:parentActivityName=".ProfileActivity">
@@ -42,6 +47,14 @@
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
+
+        <!-- Bortcast Reciver-->
+        <receiver
+            android:name=".SensorRestarterBroadcastReceiver"
+            android:enabled="true"
+            android:exported="true"
+            android:label="RestartServiceWhenStopped">
+        </receiver>
     </application>
 
 </manifest>

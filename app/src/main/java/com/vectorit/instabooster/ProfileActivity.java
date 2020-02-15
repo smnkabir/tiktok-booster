@@ -1,25 +1,44 @@
 package com.vectorit.instabooster;
 
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
+import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.CountDownTimer;
+import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.concurrent.TimeUnit;
 
 public class ProfileActivity extends AppCompatActivity implements View.OnClickListener
 {
+    private final String TAG = "Booster_Activity";
 
-    CardView cv_help,cv_hashtag,cv_boost,cv_server;
-    TextView tv_countDown,tv_countDown_caption,tv_boost;
+    CardView cv_help,cv_hashtag,cv_boost;
+    TextView tv_countDown,tv_countDown_caption,tv_boost,tv_server;
     TextView profile_name,profile_username,profile_followers,profile_likes;
     ImageView prfile_image;
     int state = 0;
+
+    /**
+     * Variables for Timer
+     */
+    String date_time;
+    Calendar calendar;
+    SimpleDateFormat simpleDateFormat;
+    SharedPreferences mpref;
+    SharedPreferences.Editor mEditor;
+
 
     /**
      * Main Fucntion
@@ -35,6 +54,9 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
         //Set Profile Data
         setProfileData();
+
+        //int
+        init();
 
         if(getIntent().hasExtra("status")){
             String status = getIntent().getStringExtra("status");
@@ -121,33 +143,81 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
 
     /**
+     * Variable Initialize for Time Counter
+     */
+    private void init() {
+
+        mpref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        mEditor = mpref.edit();
+
+        try {
+            String str_value = mpref.getString("data", "");
+            if (str_value.matches("")) {
+                tv_countDown.setText("");
+
+            } else {
+
+                if (mpref.getBoolean("finish", false)) {
+                    tv_countDown.setText("");
+                } else {
+                    tv_countDown.setText(str_value);
+                }
+            }
+        } catch (Exception e) {
+
+        }
+    }
+
+    /**
      * 24 Hour counter
      */
-    private synchronized void countDown(){
-        new CountDownTimer(86400*1000, 1000) {
+    private void countDown(){
 
-            public void onTick(long millisUntilFinished) {
-                tv_countDown_caption.setVisibility(View.VISIBLE);
-                tv_countDown.setVisibility(View.VISIBLE);
-                String time = String.format("%02d:%02d:%02d"
-                        , TimeUnit.MILLISECONDS.toHours(millisUntilFinished)
-                        , TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(millisUntilFinished))
-                        , TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished))
-                );
-                tv_countDown.setText(time);
-                cv_boost.setClickable(false);
-                tv_server.bringToFront();
+            Log.wtf(TAG,"start counter service");
+            int int_hours = Integer.valueOf("24");
 
+            if (int_hours<=24) {
+
+                calendar = Calendar.getInstance();
+                simpleDateFormat = new SimpleDateFormat("HH:mm:ss");
+                date_time = simpleDateFormat.format(calendar.getTime());
+
+                mEditor.putString("data", date_time).commit();
+                mEditor.putString("hours", "24 ").commit();
+
+                Intent intent_service = new Intent(getApplicationContext(), Timer_Service.class);
+                startService(intent_service);
             }
+    }
 
-            @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
-            public void onFinish() {
-                tv_countDown_caption.setVisibility(View.GONE);
-                tv_countDown.setVisibility(View.GONE);
 
-            }
+    /**
+     *
+     * Timer BroadcastReceiver
+     */
+    private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String str_time = intent.getStringExtra("time");
+            Log.wtf(TAG,str_time);
+            tv_countDown.setText(str_time);
+            cv_boost.setClickable(false);
+            tv_server.bringToFront();
 
-        }.start();
+        }
+    };
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        registerReceiver(broadcastReceiver,new IntentFilter(Timer_Service.str_receiver));
 
     }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unregisterReceiver(broadcastReceiver);
+    }
+
 }
