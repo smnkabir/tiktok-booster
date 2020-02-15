@@ -3,7 +3,6 @@ package com.vectorit.instabooster;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
-
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -11,7 +10,6 @@ import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import java.util.concurrent.TimeUnit;
 
 public class ProfileActivity extends AppCompatActivity implements View.OnClickListener

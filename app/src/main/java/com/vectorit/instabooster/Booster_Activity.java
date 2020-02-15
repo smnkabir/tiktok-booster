@@ -58,6 +58,8 @@ public class Booster_Activity extends AppCompatActivity implements View.OnClickL
     @Override
     public void onClick(View view) {
         switch (view.getId()){
+
+            //Follower Button
             case R.id.cv_follow:
 
                 Uri uri = Uri.parse("http://instagram.com/_u/cristiano/");
