@@ -1,4 +1,4 @@
-package com.vectorit.instabooster;
+package com.vectorit.tikboost;
 
 import android.content.Context;
 

@@ -1,4 +1,4 @@
-package com.vectorit.instabooster;
+package com.vectorit.tikboost;
 
 
 import android.app.Service;
@@ -17,6 +17,7 @@ import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
+
 public class Timer_Service extends Service {
 
     public static String str_receiver = "com.countdowntimerservice.receiver";
@@ -78,7 +79,6 @@ public class Timer_Service extends Service {
 
     public String twoDatesBetweenTime() {
 
-
         try {
             date_current = simpleDateFormat.parse(strDate);
         } catch (Exception e) {
@@ -98,6 +98,7 @@ public class Timer_Service extends Service {
             int int_hours = Integer.valueOf(mpref.getString("hours", ""));
 
             long int_timer = TimeUnit.HOURS.toMillis(int_hours);
+            //long int_timer = 60*1000;
             long long_hours = int_timer - diff;
             long diffSeconds2 = long_hours / 1000 % 60;
             long diffMinutes2 = long_hours / (60 * 1000) % 60;
@@ -111,6 +112,9 @@ public class Timer_Service extends Service {
 
                 fn_update(str_testing);
             } else {
+
+                new SharedPreferencesConfi(getApplicationContext()).setBoostedStatus(false);
+                new SharedPreferencesConfi(getApplicationContext()).setServerDown(true);
                 mEditor.putBoolean("finish", true).commit();
                 mTimer.cancel();
             }
@@ -128,7 +132,7 @@ public class Timer_Service extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Log.e("Service finish","Finish");
+        Log.wtf("Service finish","Finish");
     }
 
     private void fn_update(String str_time){

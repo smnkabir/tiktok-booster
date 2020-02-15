@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.vectorit.instabooster">
+    package="com.vectorit.tikboost">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -14,24 +14,24 @@
         android:usesCleartextTraffic="true">
 
         <!--Services-->
-        <service android:name=".Timer_Service"
+        <service android:name="com.vectorit.tikboost.Timer_Service"
             android:enabled="true"/>
 
         <!--Activity-->
         <activity
-            android:name=".HelpActivity"
+            android:name="com.vectorit.tikboost.HelpActivity"
             >
         </activity>
 
-        <activity android:name=".MainActivity"></activity>
+        <activity android:name="com.vectorit.tikboost.MainActivity"></activity>
 
-        <activity android:name=".HashTagActivity"
+        <activity android:name="com.vectorit.tikboost.HashTagActivity"
             />
 
-        <activity android:name=".Booster_Activity"
+        <activity android:name="com.vectorit.tikboost.Booster_Activity"
             />
 
-        <activity android:name=".SplashActivity">
+        <activity android:name="com.vectorit.tikboost.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
@@ -40,7 +40,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ProfileActivity"
+            android:name="com.vectorit.tikboost.ProfileActivity"
             android:theme="@style/AppThemeLauncher">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

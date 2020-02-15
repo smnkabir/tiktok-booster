@@ -1,10 +1,9 @@
-package com.vectorit.instabooster;
+package com.vectorit.tikboost;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
@@ -20,23 +19,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.vectorit.instabooster.WebInterface.WebInterface;
-
-import org.json.JSONObject;
-
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.net.HttpURLConnection;
+import com.vectorit.tikboost.WebInterface.WebInterface;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -165,24 +154,30 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
-                Log.wtf("onpagefinished", url);
+                Log.wtf("onpagefinished", "javascript: var a = "+script+"()");
 
-                myWebView.loadUrl("javascript: var a = " + "function getProfileInfo(){\n" +
-                        "    var nameElement = document.querySelector('.share-title');\n" +
-                        "    var bioElement = document.querySelector('.share-desc');\n" +
-                        "    var followingElement = document.querySelector(\".count-infos .number[title='Following']\");\n" +
-                        "    var followerElement = document.querySelector(\".count-infos .number[title='Followers']\");\n" +
-                        "    var LikesElement = document.querySelector(\".count-infos .number[title='Likes']\");\n" +
-                        "    \n" +
-                        "    var profileInfo = {\n" +
-                        "        name : nameElement.innerText,\n" +
-                        "        bio : bioElement.innerText,\n" +
-                        "        following : followingElement.innerText,\n" +
-                        "        follower : followerElement.innerText,\n" +
-                        "        Likes : LikesElement.innerText,\n" +
-                        "    };\n" +
-                        "    androidInterface.getProfileInfo(JSON.stringify(profileInfo), true);\n" +
+                /*
+                myWebView.loadUrl("javascript: var a = " + "function getProfileInfo(){" +
+                        "    var nameElement = document.querySelector('.share-title');" +
+                        "    var bioElement = document.querySelector('.share-desc');" +
+                        "    var followingElement = document.querySelector(\".count-infos .number[title='Following']\");" +
+                        "    var followerElement = document.querySelector(\".count-infos .number[title='Followers']\");" +
+                        "    var LikesElement = document.querySelector(\".count-infos .number[title='Likes']\");" +
+                        "    " +
+                        "    var profileInfo = {" +
+                        "        name : nameElement.innerText," +
+                        "        bio : bioElement.innerText," +
+                        "        following : followingElement.innerText," +
+                        "        follower : followerElement.innerText," +
+                        "        Likes : LikesElement.innerText," +
+                        "    };" +
+                        "    androidInterface.getProfileInfo(JSON.stringify(profileInfo), true);" +
                         "}" + "()");
+                 */
+
+                //Load jsScript
+                myWebView.loadUrl("javascript: var a = "+script+"()");
+
             }
         });
 
@@ -190,17 +185,16 @@ public class MainActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                progressDialog.dismiss();
                 btn_verify.setVisibility(View.GONE);
                 Intent it = new Intent(MainActivity.this, ProfileActivity.class);
 
                 //Set Login Status
                 new SharedPreferencesConfi(getApplicationContext()).setLoginStatus(true);
-
+                progressDialog.dismiss();
                 startActivity(it);
                 finish();
             }
-        }, 3 * 1000);
+        }, 10 * 1000);
     }
 
     private void nextAction() {
@@ -211,26 +205,23 @@ public class MainActivity extends AppCompatActivity {
                 , new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-//                Log.wtf("script response", response.toString());
+                Log.wtf("scriptresponse", response.toString());
 
                 setScript(response.toString());
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.d("error", "Error: " + error.getMessage());
+                Log.wtf("error", "Error: " + error.getMessage());
             }
         });
 
         requestQueue.add(stringRequest);
 
-
     }
 
     private void getUser(final String username) {
-
         RequestQueue requestQueue = Volley.newRequestQueue(MainActivity.this);
-
         final ProgressDialog progressDialog = new ProgressDialog(this);
         progressDialog.setTitle("Please Wait");
         progressDialog.setMessage("Verifying your TikTok Username");
@@ -240,7 +231,6 @@ public class MainActivity extends AppCompatActivity {
                 , new Response.Listener<String>() {
             @Override
             public void onResponse(final String response) {
-//                        Log.wtf("response code",response.toString());
 
                 new Handler().postDelayed(new Runnable() {
                     @Override
@@ -274,10 +264,6 @@ public class MainActivity extends AppCompatActivity {
                             url = url + username;
                             veritySuccessful();
 
-//                            String name = s[1].substring(0, i);
-//                            String followers = s[1].substring(i3 + word4.length(), i4);
-//                            String likes = s[1].substring(i5 + word6.length(), i6);
-
                             String imgUrl = s[1].substring(i1 + word2.length(), i2 + 5);
                             Log.wtf("imgurl", imgUrl);
 
@@ -289,14 +275,17 @@ public class MainActivity extends AppCompatActivity {
 
                         progressDialog.dismiss();
                     }
-                }, 5 * 1000);
+                }, 2 * 1000);
 
 
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.d("error", "Error: " + error.getMessage());
+                Log.wtf("error", "VollyError: " + error.getMessage());
+                tv_status.setText("Please check your internet connection and try again");
+
+                progressDialog.dismiss();
             }
         });
 

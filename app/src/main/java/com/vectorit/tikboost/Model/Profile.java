@@ -1,4 +1,4 @@
-package com.vectorit.instabooster.Model;
+package com.vectorit.tikboost.Model;
 
 import com.google.gson.annotations.SerializedName;
 

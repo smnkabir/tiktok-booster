@@ -1,12 +1,12 @@
-package com.vectorit.instabooster.WebInterface;
+package com.vectorit.tikboost.WebInterface;
 
 import android.content.Context;
 import android.util.Log;
 import android.webkit.JavascriptInterface;
 
 import com.google.gson.Gson;
-import com.vectorit.instabooster.Model.Profile;
-import com.vectorit.instabooster.SharedPreferencesConfi;
+import com.vectorit.tikboost.Model.Profile;
+import com.vectorit.tikboost.SharedPreferencesConfi;
 
 public class WebInterface {
     private Context context;

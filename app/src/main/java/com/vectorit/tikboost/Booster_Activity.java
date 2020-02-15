@@ -1,18 +1,12 @@
-package com.vectorit.instabooster;
+package com.vectorit.tikboost;
 
 import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -114,7 +108,7 @@ public class Booster_Activity extends AppCompatActivity implements View.OnClickL
 
 
     /**
-     *
+     * Starting Boosting
      */
     private void startWatch() {
         final ProgressDialog progressDialog = new ProgressDialog(this);
@@ -131,13 +125,19 @@ public class Booster_Activity extends AppCompatActivity implements View.OnClickL
                 intent.putExtra("status", "1");
                 startActivity(intent);
 
-                //Set Boosted Status
+                //Set Boosted Status & TimerStatus
                 new SharedPreferencesConfi(getApplicationContext()).setBoostedStatus(true);
+                new SharedPreferencesConfi(getApplicationContext()).setTimerStatus(true);
+
+                //Start Counter
 
                 finish();
             }
+
         }, 5000);
 
     }
+
+
 
 }

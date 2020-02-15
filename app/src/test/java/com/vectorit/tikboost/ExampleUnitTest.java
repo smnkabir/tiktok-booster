@@ -1,4 +1,4 @@
-package com.vectorit.instabooster;
+package com.vectorit.tikboost;
 
 import org.junit.Test;
 

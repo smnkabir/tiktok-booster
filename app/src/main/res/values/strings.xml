@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Insta Booster</string>
+    <string name="app_name">TikBoost</string>
     <string name="caption"><![CDATA[Boost your TikTok likes & followers  just in few easy step for FREE!]]></string>
     <string name="textInputHint">\@username</string>
 
@@ -35,6 +35,8 @@
     <string name="share_boostedstatus">com.tiktok.booster.boostedstatus</string>
     <string name="url">imgUrl</string>
     <string name="share_login_status">com.tiktok.booster.loginstatus</string>
+    <string name="share_timer_status">share_timer</string>
+    <string name="share_server_status">share_server_status</string>
 
 
 </resources>

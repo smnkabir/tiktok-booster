@@ -1,4 +1,4 @@
-package com.vectorit.instabooster;
+package com.vectorit.tikboost;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -176,4 +176,51 @@ public class SharedPreferencesConfi {
     }
 
 
+    /**
+     * Set setTimerStatus
+     *
+     * @param status
+     */
+    public void setTimerStatus(boolean status) {
+        sharedPreferences.edit().putBoolean(context.getResources().getString(R.string.share_timer_status),
+                status).apply();
+    }
+
+    /**
+     * Get getTimerStatus
+     *
+     * @return
+     */
+    public boolean getTimerStatus() {
+        boolean status;
+        status = sharedPreferences.getBoolean(context.getResources().getString(R.string.share_timer_status),
+                false);
+        return status;
+    }
+
+    /**
+     * Set setServerDown
+     *
+     * @param status
+     */
+    public void setServerDown(boolean status) {
+        sharedPreferences.edit().putBoolean(context.getResources().getString(R.string.share_server_status),
+                status).apply();
+    }
+
+    /**
+     * Get setServerDown
+     *
+     * @return
+     */
+    public boolean getServerDown() {
+        boolean status;
+        status = sharedPreferences.getBoolean(context.getResources().getString(R.string.share_server_status),
+                false);
+        return status;
+    }
+
+    public void clearAllData(){
+        sharedPreferences.edit().clear().apply();
+    }
 }

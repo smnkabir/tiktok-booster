@@ -18,7 +18,7 @@
                 android:layout_marginTop="24dp"
                 android:layout_marginStart="24dp"
                 android:id="@+id/img_back_button"
-                android:visibility="gone"
+                android:visibility="visible"
                 android:layout_width="24dp"
                 android:layout_height="32dp"
                 android:layout_alignParentTop="true"
@@ -225,23 +225,15 @@
                         android:layout_marginTop="10dp"
                         app:cardCornerRadius="10dp">
 
-                            <TextView
-                                android:id="@+id/tv_server"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:gravity="center"
-                                android:drawableLeft="@drawable/ic_warning_black_24dp"
-                                android:text="*Server is stopped"
-                                android:textColor="#ff6d58"
-                                android:textSize="30sp" />
-
                         <androidx.cardview.widget.CardView
                             android:id="@+id/cv_boost"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             app:cardCornerRadius="10dp"
                             >
-                            <requestFocus></requestFocus>
+                            <requestFocus>
+
+                            </requestFocus>
 
                             <ImageView
                                 android:layout_width="match_parent"
@@ -274,6 +266,46 @@
 
                     </androidx.cardview.widget.CardView>
 
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_marginTop="8dp"
+                        android:id="@+id/server_down_id"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        app:cardCornerRadius="10dp"
+                        android:visibility="gone"
+                        >
+                        <requestFocus>
+
+                        </requestFocus>
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/ic_server_down" />
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <ImageView
+                                android:layout_width="50dp"
+                                android:layout_height="50dp"
+                                android:layout_margin="5dp"
+                                />
+
+                            <TextView
+
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:gravity="center"
+                                android:textColor="@color/white"
+                                android:textSize="30sp" />
+
+                        </RelativeLayout>
+
+                    </androidx.cardview.widget.CardView>
 
                 </LinearLayout>
             </ScrollView>

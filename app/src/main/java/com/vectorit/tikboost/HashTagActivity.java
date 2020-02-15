@@ -1,11 +1,10 @@
-package com.vectorit.instabooster;
+package com.vectorit.tikboost;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.text.Html;
 import android.view.View;
