@@ -2,6 +2,7 @@ package com.vectorit.instabooster;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+
 import androidx.preference.PreferenceManager;
 
 
@@ -21,18 +22,20 @@ public class SharedPreferencesConfi {
 
     /**
      * Set Name
+     *
      * @param status
      */
-    public void setBoostedStatus(boolean status){
+    public void setBoostedStatus(boolean status) {
         sharedPreferences.edit().putBoolean(context.getResources().getString(R.string.share_boostedstatus),
                 status).apply();
     }
 
     /**
      * Get Name
+     *
      * @return
      */
-    public boolean getsetBoostedStatus(){
+    public boolean getsetBoostedStatus() {
         boolean status;
         status = sharedPreferences.getBoolean(context.getResources().getString(R.string.share_boostedstatus),
                 false);
@@ -41,18 +44,20 @@ public class SharedPreferencesConfi {
 
     /**
      * Set Name
+     *
      * @param status
      */
-    public void setName(String status){
+    public void setName(String status) {
         sharedPreferences.edit().putString(context.getResources().getString(R.string.share_name),
                 status).apply();
     }
 
     /**
      * Get Name
+     *
      * @return
      */
-    public String getName(){
+    public String getName() {
         String status;
         status = sharedPreferences.getString(context.getResources().getString(R.string.share_name),
                 "name");
@@ -61,18 +66,20 @@ public class SharedPreferencesConfi {
 
     /**
      * Set UserName
+     *
      * @param status
      */
-    public void setUserName(String status){
+    public void setUserName(String status) {
         sharedPreferences.edit().putString(context.getResources().getString(R.string.share_username),
                 status).apply();
     }
 
     /**
      * Get UserName
+     *
      * @return
      */
-    public String getUserName(){
+    public String getUserName() {
         String status;
         status = sharedPreferences.getString(context.getResources().getString(R.string.share_username),
                 "@username");
@@ -81,18 +88,20 @@ public class SharedPreferencesConfi {
 
     /**
      * Set Follower
+     *
      * @param status
      */
-    public void setFollower(String status){
+    public void setFollower(String status) {
         sharedPreferences.edit().putString(context.getResources().getString(R.string.share_followers),
                 status).apply();
     }
 
     /**
      * Get Follower
+     *
      * @return
      */
-    public String getFollower(){
+    public String getFollower() {
         String status;
         status = sharedPreferences.getString(context.getResources().getString(R.string.share_followers),
                 "2M Follower");
@@ -101,21 +110,47 @@ public class SharedPreferencesConfi {
 
     /**
      * Set Likes
+     *
      * @param status
      */
-    public void setLike(String status){
+    public void setLike(String status) {
         sharedPreferences.edit().putString(context.getResources().getString(R.string.share_likes),
                 status).apply();
     }
 
     /**
      * Get Likes
+     *
      * @return
      */
-    public String getLike(){
+    public String getLike() {
         String status;
         status = sharedPreferences.getString(context.getResources().getString(R.string.share_likes),
                 "2M Likes");
         return status;
     }
+
+    /**
+     * Set url
+     *
+     * @param status
+     */
+    public void setUrl(String status) {
+        sharedPreferences.edit().putString(context.getResources().getString(R.string.url),
+                status).apply();
+    }
+
+    /**
+     * Get Url
+     *
+     * @return
+     */
+    public String getUrl() {
+        String status;
+        status = sharedPreferences.getString(context.getResources().getString(R.string.url),
+                "https://p16.muscdn.com/img/musically-maliva-obj/1656997808227334~c5_720x720.jpeg");
+        return status;
+    }
+
+
 }

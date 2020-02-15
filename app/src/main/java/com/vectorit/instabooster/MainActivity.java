@@ -1,7 +1,10 @@
 package com.vectorit.instabooster;
 
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.app.ProgressDialog;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
@@ -16,6 +19,7 @@ import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -129,7 +133,7 @@ public class MainActivity extends AppCompatActivity {
     void setScript(String s) {
         script = s;
 
-        Log.wtf("script",script);
+        Log.wtf("script", script);
 
         final ProgressDialog progressDialog = new ProgressDialog(this);
         progressDialog.setTitle("Please Wait");
@@ -137,10 +141,22 @@ public class MainActivity extends AppCompatActivity {
 
         progressDialog.show();
 
-        Log.wtf("user link",url);
+        Log.wtf("user link", url);
         myWebView.loadUrl(url);
 
         myWebView.getSettings().setJavaScriptEnabled(true);
+
+        //Desktop View
+        myWebView.getSettings().setMinimumFontSize(12);
+        myWebView.getSettings().setLoadWithOverviewMode(true);
+        myWebView.getSettings().setUseWideViewPort(true);
+        myWebView.getSettings().setSupportZoom(true);
+        myWebView.getSettings().setBuiltInZoomControls(true);
+        myWebView.getSettings().setDisplayZoomControls(false);
+        myWebView.setScrollBarStyle(WebView.SCROLLBARS_OUTSIDE_OVERLAY);
+        myWebView.setScrollbarFadingEnabled(false);
+        String newUA = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12) AppleWebKit/602.1.50 (KHTML, like Gecko) Version/10.0 Safari/602.1.50";
+        myWebView.getSettings().setUserAgentString(newUA);
 
 
         myWebView.addJavascriptInterface(new WebInterface(this), "androidInterface");
@@ -151,16 +167,36 @@ public class MainActivity extends AppCompatActivity {
                 super.onPageFinished(view, url);
                 Log.wtf("onpagefinished", url);
 
-                myWebView.loadUrl("javascript: var a = "+ "function getProfileInfo(){\n" +
-                        "androidInterface.show();"+
-                        "var nameElement = document.querySelector('.share-title').innerText;"+
-                        "androidInterface.getProfileInfo(nameElement,true);" +
+                myWebView.loadUrl("javascript: var a = " + "function getProfileInfo(){\n" +
+                        "    var nameElement = document.querySelector('.share-title');\n" +
+                        "    var bioElement = document.querySelector('.share-desc');\n" +
+                        "    var followingElement = document.querySelector(\".count-infos .number[title='Following']\");\n" +
+                        "    var followerElement = document.querySelector(\".count-infos .number[title='Followers']\");\n" +
+                        "    var LikesElement = document.querySelector(\".count-infos .number[title='Likes']\");\n" +
+                        "    \n" +
+                        "    var profileInfo = {\n" +
+                        "        name : nameElement.innerText,\n" +
+                        "        bio : bioElement.innerText,\n" +
+                        "        following : followingElement.innerText,\n" +
+                        "        follower : followerElement.innerText,\n" +
+                        "        Likes : LikesElement.innerText,\n" +
+                        "    };\n" +
+                        "    androidInterface.getProfileInfo(JSON.stringify(profileInfo), true);\n" +
                         "}" + "()");
             }
         });
 
 
-        progressDialog.dismiss();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                progressDialog.dismiss();
+                btn_verify.setVisibility(View.GONE);
+                Intent it = new Intent(MainActivity.this, ProfileActivity.class);
+                startActivity(it);
+                finish();
+            }
+        }, 3 * 1000);
     }
 
     private void nextAction() {
@@ -173,7 +209,6 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(String response) {
 //                Log.wtf("script response", response.toString());
 
-                btn_verify.setVisibility(View.GONE);
                 setScript(response.toString());
             }
         }, new Response.ErrorListener() {
@@ -228,14 +263,6 @@ public class MainActivity extends AppCompatActivity {
                         int i5 = s[1].indexOf(word6);
                         int i6 = s[1].indexOf(word7);
 
-                        /*Log.wtf("i",i+"");
-                        Log.wtf("i",i1+"");
-                        Log.wtf("i",i2+"");
-                        Log.wtf("i",i3+"");
-                        Log.wtf("i",i4+"");
-                        Log.wtf("i",i5+"");
-                        Log.wtf("i",i6+"");*/
-
                         if (i < 0 || i1 < 0 || i2 < 0 || i3 < 0 || i4 < 0 || i5 < 0 || i6 < 0) {
                             setError();
 
@@ -243,15 +270,16 @@ public class MainActivity extends AppCompatActivity {
                             url = url + username;
                             veritySuccessful();
 
-                            /*String name = s[1].substring(0, i);
-                            String imgUrl = s[1].substring(i1 + word2.length(), i2 + 5);
-                            String followers = s[1].substring(i3 + word4.length(), i4);
-                            String likes = s[1].substring(i5 + word6.length(), i6);
+//                            String name = s[1].substring(0, i);
+//                            String followers = s[1].substring(i3 + word4.length(), i4);
+//                            String likes = s[1].substring(i5 + word6.length(), i6);
 
-                            Log.wtf("name", name);
+                            String imgUrl = s[1].substring(i1 + word2.length(), i2 + 5);
                             Log.wtf("imgurl", imgUrl);
-                            Log.wtf("followers", followers);
-                            Log.wtf("likes", likes);*/
+
+                            SharedPreferencesConfi sharedPreferencesConfi = new SharedPreferencesConfi(getBaseContext());
+                            sharedPreferencesConfi.setUserName(username);
+                            sharedPreferencesConfi.setUrl(imgUrl);
 
                         }
 
@@ -266,39 +294,10 @@ public class MainActivity extends AppCompatActivity {
             public void onErrorResponse(VolleyError error) {
                 Log.d("error", "Error: " + error.getMessage());
             }
-        }) {
-
-            @Override
-            protected Response<String> parseNetworkResponse(NetworkResponse response) {
-                int statusCode = response.statusCode;
-                checkStatusCode(statusCode);
-                return super.parseNetworkResponse(response);
-            }
-        };
+        });
 
         requestQueue.add(stringRequest);
     }
 
-    private void checkStatusCode(int statusCode) {
-        Log.wtf("status code", "" + statusCode);
-        switch (statusCode) {
-            case HttpURLConnection.HTTP_OK:
-                valid();
-                break;
-            case HttpURLConnection.HTTP_NOT_FOUND:
-                notFound();
-                break;
-            case HttpURLConnection.HTTP_INTERNAL_ERROR:
-                //do stuff
-                break;
-        }
-    }
 
-    private void valid() {
-
-    }
-
-    private void notFound() {
-
-    }
 }

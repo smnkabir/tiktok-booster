@@ -3,6 +3,7 @@ package com.vectorit.instabooster;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -10,19 +11,22 @@ import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
+
 import java.util.concurrent.TimeUnit;
 
-public class ProfileActivity extends AppCompatActivity implements View.OnClickListener
-{
+public class ProfileActivity extends AppCompatActivity implements View.OnClickListener {
 
-    CardView cv_help,cv_hashtag,cv_boost,cv_server;
-    TextView tv_countDown,tv_countDown_caption,tv_boost;
-    TextView profile_name,profile_username,profile_followers,profile_likes;
+    CardView cv_help, cv_hashtag, cv_boost;
+    TextView tv_countDown, tv_countDown_caption, tv_boost, tv_server;
+    TextView profile_name, profile_username, profile_followers, profile_likes;
     ImageView prfile_image;
     int state = 0;
 
     /**
      * Main Fucntion
+     *
      * @param savedInstanceState
      */
     @Override
@@ -36,9 +40,9 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         //Set Profile Data
         setProfileData();
 
-        if(getIntent().hasExtra("status")){
+        if (getIntent().hasExtra("status")) {
             String status = getIntent().getStringExtra("status");
-            if(status.equals("1")){
+            if (status.equals("1")) {
                 countDown();
             }
         }
@@ -48,19 +52,23 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
      * Set Collected information from Tiktok.
      * Load from shared preference.
      */
-    private void setProfileData(){
+    private void setProfileData() {
         SharedPreferencesConfi confi = new SharedPreferencesConfi(getApplicationContext());
         profile_name.setText(confi.getName());
         profile_username.setText(confi.getUserName());
         profile_followers.setText(confi.getFollower());
         profile_likes.setText(confi.getLike());
+
+        // profile img
+        Picasso.get().load(confi.getUrl()).into(prfile_image);
+
     }
 
 
     /**
      * Elements xml id finder
      */
-    private void idFinder(){
+    private void idFinder() {
 
         //data setter ids : Profile Data
         prfile_image = findViewById(R.id.iv_profile_image_id);
@@ -87,29 +95,30 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
     /**
      * Activity Button Handler
+     *
      * @param v
      */
     @Override
     public void onClick(View v) {
-        Intent it ;
-        switch (v.getId()){
+        Intent it;
+        switch (v.getId()) {
 
             //Help button
-            case  R.id.cv_help:
-                it = new Intent(this,HelpActivity.class);
+            case R.id.cv_help:
+                it = new Intent(this, HelpActivity.class);
                 startActivity(it);
                 break;
 
             //HashTag Button
-            case  R.id.cv_hastag:
-                it = new Intent(this,HashTagActivity.class);
+            case R.id.cv_hastag:
+                it = new Intent(this, HashTagActivity.class);
                 startActivity(it);
 
                 break;
 
             //Boost Button
-            case  R.id.cv_boost:
-                it = new Intent(this,Booster_Activity.class);
+            case R.id.cv_boost:
+                it = new Intent(this, Booster_Activity.class);
                 startActivity(it);
                 break;
 
@@ -123,8 +132,8 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     /**
      * 24 Hour counter
      */
-    private synchronized void countDown(){
-        new CountDownTimer(86400*1000, 1000) {
+    private synchronized void countDown() {
+        new CountDownTimer(86400 * 1000, 1000) {
 
             public void onTick(long millisUntilFinished) {
                 tv_countDown_caption.setVisibility(View.VISIBLE);
