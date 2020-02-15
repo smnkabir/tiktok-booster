@@ -2,13 +2,17 @@ package com.vectorit.instabooster;
 
 import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -19,6 +23,7 @@ import androidx.cardview.widget.CardView;
 
 public class Booster_Activity extends AppCompatActivity implements View.OnClickListener {
 
+    private final String TAG = "Booster_Activity";
     CardView cv_follow;
     ImageView iv_menu_back;
     Button btn_start;
@@ -134,4 +139,5 @@ public class Booster_Activity extends AppCompatActivity implements View.OnClickL
         }, 5000);
 
     }
+
 }
